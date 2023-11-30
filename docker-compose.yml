@@ -1,7 +1,8 @@
 version: '3'
 services:
   pycram:
-    image: rpwr-assignments:binder
+    image: intel4coro/artnie-2drpwr-2dassignments-a6f480:a108d234996e2e6572b7c69feabf2de1a7ac7bcd
+    # rpwr-assignments:binder
     build:
       context: .
       dockerfile: ./Dockerfile
