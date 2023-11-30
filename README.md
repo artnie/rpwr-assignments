@@ -8,11 +8,7 @@ Install the Docker Compose Plugin. Linux can install Compose individually. Windo
 * Windows (Docker Desktop): https://docs.docker.com/desktop/install/windows-install/
 * Mac (Docker Desktop): https://docs.docker.com/desktop/install/mac-install/
 
-Clone the repository, cd into it and do
-```
-docker compose build
-```
-Then to start the image do 
+Clone the repository, cd into it. Then start the image with 
 ```
 docker compose up
 ```
