@@ -19,7 +19,7 @@ RUN apt-get update && \
 USER ${NB_USER}
 
 WORKDIR ${PYCRAM_WS}/src/
-RUN git clone https://github.com/sunava/turtlebot3_simulations -b lisp-course \
+RUN git clone https://github.com/artnie/turtlebot3_simulations -b rpwr \
  && git clone https://github.com/code-iai/iai_office_sim
 
 # Build pycram workspace
