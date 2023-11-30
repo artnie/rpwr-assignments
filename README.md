@@ -1,2 +1,19 @@
 # rpwr-assignments
 Assignments for the course Robot Programming with ROS
+
+## Build locally
+
+Install the Docker Compose Plugin. Linux can install Compose individually. Windows and Mac get it together with Docker Desktop
+* Linux (Docker **Compose Plugin**): https://docs.docker.com/compose/install/linux/#install-the-plugin-manually
+* Windows (Docker Desktop): https://docs.docker.com/desktop/install/windows-install/
+* Mac (Docker Desktop): https://docs.docker.com/desktop/install/mac-install/
+
+Clone the repository, cd into it and do
+```
+docker compose build
+```
+Then to start the image do 
+```
+docker compose up
+```
+For troubleshooting with Windows, refer to https://github.com/IntEL4CoRo/cram_teaching/blob/main/docs/install_wsl.md
