@@ -1,4 +1,4 @@
-FROM intel4coro/artnie-2dpycram-324103:d08b8c974ad12055a486ef2347740200cf9b955b
+FROM intel4coro/artnie-2dpycram-324103:ae09d0364ac1d9ea3abda5f1985056701172a8ca
 
 ENV PATH=$PATH:/home/user/.local/bin
 ENV PYCRAM_WS=/home/${NB_USER}/workspace/ros
@@ -13,7 +13,8 @@ RUN apt-get update && \
     ros-noetic-turtlebot3-teleop \
     ros-noetic-turtlebot3-navigation \
     ros-noetic-dwa-local-planner \
-    byobu && \
+    byobu \
+    iputils-ping && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
 USER ${NB_USER}
