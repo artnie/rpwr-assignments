@@ -1,8 +1,7 @@
 version: '3'
 services:
   pycram:
-    image: intel4coro/artnie-2drpwr-2dassignments-a6f480:a108d234996e2e6572b7c69feabf2de1a7ac7bcd
-    # rpwr-assignments:binder
+    image: intel4coro/artnie-2drpwr-2dassignments-a6f480:24885d1d20a2dc7df20203b27e4770ee22c29095
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -11,21 +10,12 @@ services:
     ports: 
       - 8888:8888
     privileged: true
-    # user: root
-    #command: start-notebook.sh --allow-root --NotebookApp.token='' --no-browser --ip=0.0.0.0
-    #entrypoint: ["/home/jovyan/work/entrypoint.sh"]
-    # working_dir: /home/jovyan/
     volumes:
       - ./:/home/jovyan/work
-    # - /tmp/.X11-unix:/tmp/.X11-unix:rw
+
+    # for windows and mac, use 'network_mode: bridge'
+    # network_mode: host
     # environment:
-    #   - DISPLAY
-      # - QT_X11_NO_MITSHM=1
-    #   - NVIDIA_DRIVER_CAPABILITIES=all
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: all
-    #           capabilities: [gpu]
+    #   - ROS_IP=localhost  # change localhost to your wifi IP
+    #   - ROS_MASTER_URI=http://localhost:11311  # change 'localhost' to TURTLE IP
+
