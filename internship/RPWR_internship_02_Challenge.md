@@ -17,6 +17,8 @@ Before you start the Referee, bringt the tortugabot to life. We need the followi
 roslaunch tortugabot_bringup base_and_joy_and_laser.launch
 # in another terminal
 roslaunch tortugabot_bringup amcl.launch
+# in yet another terminal
+roslaunch tortugabot_bringup move_base.launch
 ```
 Launch your Docker Container. Then the Referee can be run. Execute this on your personal PC.
 ```bash
@@ -81,4 +83,4 @@ if __name__ == '__main__':
 * Navigate through difficult parts, like doors.
 
 ## Next week
-Next week you let the real tortugabot follow the wall and this time collisions have consequences. The avoidance of collisions and the time required to drive along the wall are important. MoveBase is not 
+Next week you let the real tortugabot follow the wall and this time collisions have consequences. The avoidance of collisions and the time required to drive along the wall are important. MoveBase is not recommended.
