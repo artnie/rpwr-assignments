@@ -38,4 +38,10 @@ The PS3-Controller sends a lot of messages. You have to throttle it to be able t
 
 ## Autonomous driving
 
-The robot can switch betweeen two modes. First mode is ps3-driving mode from the previous task (lane keeping assist). The second mode is autonomous driving mode (MoveBase-Client). The robot should start following the nearest wall and should drive in the hallway. No entering another room. Driving through the door in the hallway is required. One way to switch modes is to map an unused button of the PS3-Controller to switch modes. 
+The robot can switch between two modes. 
+
+First mode is driving with the PS3 Controller and adding a lane keeping assist. The robot should start close to a wall, drive in the hallway, and avoid hitting the wall. 
+Optional: Follow the wall by moving closer/further to/from the wall.
+
+The second mode is autonomous driving mode (MoveBase-Client). Driving through the door in the hallway is required. Use the waypint published by the referee. Main focus is on the internl belief state and decision-making: when to go to the depot.
+Optional: One way to switch modes is to map an unused button of the PS3-Controller to switch modes. 
