@@ -10,6 +10,6 @@ Install the Docker Compose Plugin. Linux can install Compose individually. Windo
 
 Clone the repository, cd into it. Then start the image with 
 ```
-docker compose up
+docker compose -f binder/docker-compose.yml up
 ```
 For troubleshooting with Windows, refer to https://github.com/IntEL4CoRo/cram_teaching/blob/main/docs/install_wsl.md

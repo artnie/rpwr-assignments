@@ -11,7 +11,7 @@ services:
       - 8888:8888
     privileged: true
     volumes:
-      - ./:/home/jovyan/work
+      - ../:/home/jovyan/work
 
     # for windows and mac, use 'network_mode: bridge'
     # network_mode: host
