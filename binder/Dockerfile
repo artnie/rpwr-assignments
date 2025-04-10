@@ -29,6 +29,7 @@ WORKDIR  ${PYCRAM_WS}
 RUN catkin build
 
 WORKDIR ${PYCRAM_WS}/src/pycram
+COPY --chown=${NB_USER}:users binder/jupyter-config.json /opt/conda/share/jupyter/lab/settings/overrides.json 
 COPY --chown=${NB_USER}:users . rpwr-assignments/
 
 
