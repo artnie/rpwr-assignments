@@ -8,8 +8,15 @@ Install the Docker Compose Plugin. Linux can install Compose individually. Windo
 * Windows (Docker Desktop): https://docs.docker.com/desktop/install/windows-install/
 * Mac (Docker Desktop): https://docs.docker.com/desktop/install/mac-install/
 
-Clone the repository, cd into it. Then start the image with 
+Clone the repository, 
+
 ```
-docker compose up
+git clone --recurse-submodules https://github.com/artnie/rpwr-assignments.git
+```
+
+cd into it. Then start the JupyterNotebook with
+
+```
+docker compose -f binder/docker-compose.yml up
 ```
 For troubleshooting with Windows, refer to https://github.com/IntEL4CoRo/cram_teaching/blob/main/docs/install_wsl.md
