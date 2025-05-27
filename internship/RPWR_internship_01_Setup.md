@@ -17,6 +17,7 @@ Each Tortugabot system consists of multiple parts:
 * PS3 Controller for teleoperation
 
 **Flip the Tortugabot on its back while testing** so it doesn't run away.
+
 ## Boot the Tortugabot
 
 Connect the battery to use motors and laser.
@@ -24,9 +25,12 @@ Connect the battery to use motors and laser.
 * The Hokuyo LiDAR shows a constant blue LED if powered.
 * Check the battery status by pressing the red button on it. 
 
-Login to the Tortugabot laptop: 
+Login to the Tortugabot laptop:
+
 User: roscourse
+
 PW: 10293847
+
 ## Connect remotely
 
 Contain ROS-communication moslty between the tortugabot laptop and the hardware 
@@ -47,24 +51,25 @@ Connect to the tortuga Laptop via SSH
 ```bash
 ssh roscourse@10.0.1.xx
 ```
-tortuga2: 10.0.1.33
-tortuga3: 10.0.1.32
-tortuga4: 10.0.1.35
-tortuga5: 10.0.1.34
-tortuga6: 10.0.1.36
+* tortuga2: 10.0.1.33
+* tortuga3: 10.0.1.32
+* tortuga4: 10.0.1.35
+* tortuga5: 10.0.1.34
+* tortuga6: 10.0.1.36
 
 In a terminal, start Byobu. This allows every SSH connection to have one terminal to manage the running processes. It will prevent you from having any rogue nodes running in the background.
 ```bash
 # Tortugabot
 byobu
 ```
-F2 - Create new window
-F3 - Move to previous window
-F4 - Move to next Window
-CTRL-D - Delete current window
-F6 - Detach from this session
-F7 - Enter copy/scrollback mode
-F8 - Rename current window
+* F2 - Create new window
+* F3 - Move to previous window
+* F4 - Move to next Window
+* CTRL-D - Delete current window
+* F6 - Detach from this session
+* F7 - Enter copy/scrollback mode
+* F8 - Rename current window
+
 ### Roboclaw for base movement
 
 Connect the **Roboclaw** via USB. The socket is available on `ttyACM0`.  Check the availability with
@@ -180,9 +185,9 @@ In RViz add a new Map visualization.
 First of all, don't. ROS2 invokes a lot of overhead and floods the network with discovery messages until denial of service, when DDS is not configured properly.
 
 Traffic statistics:
-Tortugabot localhost-only - 400 packages/minute
-Tortugabot + Rviz Remote + TF - 2.000 packages/minute 
-Tortugabot + Rviz Remote + TF + /scan - 12.000 packages/minute 
+* Tortugabot localhost-only - 400 packages/minute
+* Tortugabot + Rviz Remote + TF - 2.000 packages/minute 
+* Tortugabot + Rviz Remote + TF + /scan - 12.000 packages/minute 
 
 If you need to, install [[RMW - Cyclone DSS]] and share the same ROS_DOMAN_ID with the tortugabot.
 
