@@ -1,176 +1,189 @@
-Hello everyone. In this intership you will write code to control Tortugabots on their way through the building. You will work in pairs - two people form a group. Each group can work on the turtles every Thursday afternoon. In the 5th week the turtles will be let loose to search for treasures.
+In this internship you will write code to control Tortugabots on their way through the building. You will work in groups.  
 
-## Lecture 1 - Remote control tortuga
-The Tortugabot System consists of multiple parts:
-* Hokuyo Laser Sensor for navigation
+The goal is a group-presentation of self-implemented navigation, using the given programs. To evaluate your grade, the following aspects are considered:
+* Repel: Avoid collisions before they happen.
+* Static attraction: follow a wall.
+* Dynamic attraction: follow a person.
+* Visit waypoints on a map.
+
+Presentation is given with complementary material. Slides with screenshots are good, a demo video even better. Consider Murphys Law: your live-demo will fail, so prepare backup material to showcase your work. 
+## Hardware components
+
+Each Tortugabot system consists of multiple parts:
+* Hokuyo LiDAR for sensing
 * Roboclaw controlling 2 motor wheels (+ 2 more wheels for stability)
 * Battery Pack, powering Roboclaw and Hokuyo
-* Tortuga Laptop connected to Hokuyo and Roboclaw, running ROSCORE and drivers
-* Your Laptop, communicating with the Tortuga Laptop over WiFi
-* PS3 Controller for Teleoperation
+* Tortuga Laptop connected to Hokuyo and Roboclaw running their drivers
+* PS3 Controller for teleoperation
 
-### Boot the Tortugabot
-**Flip the Tortugabot on its back while testing** so you can work with it comfortably.
+**Flip the Tortugabot on its back while testing** so it doesn't run away.
+## Boot the Tortugabot
 
-On the Tortugabot, connect the battery pack. Login to the laptop with the lispcourse user. The password is 10293847. Connect the laptop to the Hokuyo via LAN, and to the Roboclaw via USB. Make sure that the LAN connection says 'Hokuyo'. Activate the PS3 Controller to let it connect to the laptop via bluetooth. It will blink all 4 LEDs while searching and light the LED next to 1 when its connected. 
+Connect the battery to use motors and laser.
+* The Roboclaw shows a constant green light. If it is red it needs more power - replace the battery. The green LED flickers for every message sent to the board.
+* The Hokuyo LiDAR shows a constant blue LED if powered.
+* Check the battery status by pressing the red button on it. 
 
-The file at `/home/lispcourse/.bashrc` is your config file for each new terminal. Add a few default values here.  Edit the `.bashrc` file and put the following at the bottom:
+Login to the Tortugabot laptop: 
+User: roscourse
+PW: 10293847
+## Connect remotely
+
+Contain ROS-communication moslty between the tortugabot laptop and the hardware 
+
+With your own laptop you can control the Turtle through the WiFi access point:
+SSID: lispcourse
+PW: turtlesalltheway
+
+Check your own IPv4 address at the wireless interface. It should be something of the pattern `10.0.1.xx`. If not, you are not connected to the lispcourse network.
 ```bash
-source /home/arthur/ros_ws/devel/setup.bash
-
-export ROS_IP='<Tortugabot IP>'
-export ROS_HOSTNAME=$ROS_IP
-export ROS_MASTER_URI="http://$ROS_IP:11311"
+ip a
 ```
-Replace `<Tortugabot IP>` with the IP of the Tortugabot laptop. Make sure it's connected with the lispcourse WiFi, then check the IP with `ifconfig`. Open a new terminal and run `echo $ROS_MASTER_URI` to see if the changes are applied.
-
-In one terminal run `roscore`, then open another terminal and run
+Now check if you can reach the Turtle, let's say tortuga6
 ```bash
-# Tortugabot
-roslaunch tortugabot_bringup base_and_joy_and_laser.launch
-``` 
-This will run the drivers for Roboclaw, Hokuyo and the PS3 Controller. Check the console for any errors. You should be able to move the Tortugabot with the Controller now: Hold L1 while using the left and right analog sticks.
-
-### Connect to the Tortugabot remotely
-Your personal laptop and the Tortugabot laptop communicate via ROS. For that they need to be in the same WiFi network. Make sure that both PCs are in the same WiFi. You will communicate with the Tortugabot via the Docker Image.
-```yaml
-version: '3'
-services:
-  pycram:
-    image: intel4coro/artnie-2drpwr-2dassignments-a6f480:24885d1d20a2dc7df20203b27e4770ee22c29095
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    stdin_open: true
-    tty: true
-    ports: 
-      - 8888:8888
-    privileged: true
-    volumes:
-      - ./:/home/jovyan/work
-
-    # for windows and mac, use 'network_mode: bridge'
-    # network_mode: host
-    # environment:
-    #   - ROS_IP=localhost  # change localhost to your wifi IP
-    #   - ROS_MASTER_URI=http://localhost:11311  # change 'localhost' to TURTLE IP
+ping 10.0.1.36
 ```
-* `ROS_MASTER_URI` points to the roscore address. Find the IP of your Tortugabot with ifconfig
-* `ROS_IP`, `ROS_HOSTNAME` is your personal laptops IP. Use ifconfig in the Docker Image
+Connect to the tortuga Laptop via SSH
+```bash
+ssh roscourse@10.0.1.xx
+```
+tortuga2: 10.0.1.33
+tortuga3: 10.0.1.32
+tortuga4: 10.0.1.35
+tortuga5: 10.0.1.34
+tortuga6: 10.0.1.36
 
-Connect to your Docker container
-```bash
-# Personal PC
-docker exec -it cram_headless /bin/bash
-```  
-In the container, check if you can see the Tortugabot roscore
-```bash
-# Docker
-rostopic list
-```
-If you can't, check your WiFi, then try to ping the Tortugabot laptop
-```bash
-# Docker
-ping 192.168.101.<IP suffix of your tortuga>
-```
-If that works, check if the Tortugabot laptop is actually running a roscore. Double check your ROS_MASTER_URI with 
-```bash
-# Docker
-echo $ROS_MASTER_URI
-```
-
-### Move the robot remotely
-Make sure the Tortugabot moves through teleoperation from the PS3 Controller.
-
-In the Docker container, check the rostopics for cmd_vel
-```bash
-# Docker
-rostopic list | grep cmd_vel
-```
-If it shows the topic, check it out with
-```bash
-# Docker
-rostopic echo /base/cmd_vel
-```
-and use the PS3 Controller so send some messages. Now send your own message with
-```bash
-# Docker
-rostopic pub /base/cmd_vel TAB TAB 
-```
-Enter some value or rotational velocity around the Z-Axis and see the robot move. By design of the Tortugabot it can only process a linear velocity along its X-Axis, and angular velocity around the Z-Axis.
-
-### Connect via SSH
-
-From the Docker container you can connect to the Tortugabot via SSH:
-```bash
-# Docker
-ssh lispcourse@192.168.101.<IP suffix of your Tortuga>
-```
-Enter the password 10293847 and you're in!
-
-Since you want to launch multiple processes you should run
+In a terminal, start Byobu. This allows every SSH connection to have one terminal to manage the running processes. It will prevent you from having any rogue nodes running in the background.
 ```bash
 # Tortugabot
 byobu
 ```
+F2 - Create new window
+F3 - Move to previous window
+F4 - Move to next Window
+CTRL-D - Delete current window
+F6 - Detach from this session
+F7 - Enter copy/scrollback mode
+F8 - Rename current window
+### Roboclaw for base movement
 
-### Record a map of the ground floor
-https://ai.uni-bremen.de/wiki/hardware/createmap 
-
-Here you can find the usual approach to record a map. In the process the Tortugabot will do Simulateous Localization and Mapping (SLAM), combining its odometry (estimate of wheel rotation) and the laser sensor for orientation. While moving the Tortugabot with the PR3 controller, it explores more and more of the environment to build a map.
-
-Place the Tortugabot at a starting position and turn its X-Axis accurately towards the direction it should move. This makes it easier later, when refining the map. The launch the launchfile for the base, so you are able to move the Tortugabot with your controller. Launching this will set the starting position of your robot.
+Connect the **Roboclaw** via USB. The socket is available on `ttyACM0`.  Check the availability with
 ```bash
-# Tortugabot
-roslaunch tortugabot_bringup base_and_joy_and_laser.launch
+ls /dev | grep ttyACM0
 ```
-You can find the launchfile for mapping on the Tortugabot
+Start the Roboclaw driver
 ```bash
-# Tortugabot
-roslaunch tortugabot_bringup gmapping.launch
+ros2 launch roboclaw_node roboclaw_launch.py
 ```
-Open up Rviz on your personal PC and visualize the progress of the map, laser data and TF (see screenshot further below). Move the Tortugabot around, carefully and slowly. When you are done, safe the recorded map:
+The last message should be `Roboclaw: Starting motor drive`.  It it complains about the `_port`, check the battery and USB connection.
+
+Now check for the `/base/cmd_vel` topic
 ```bash
-# Tortugabot
-rosrun map_server map_saver
+ros2 topic list
 ```
-This wil drop two files into your current location: `map.pgm` and `map.yaml`. Copy the files to the location of the Adaptive Monte-Carlo Localization (AMCL) package.
+Send a command to test it, press CTRL-C to cancel
 ```bash
-# Tortugabot
-cp map* /home/arthur/ros_ws/src/tortugabot/tortugabot_bringup/maps/
+ros2 topic pub /base/cmd_vel geometry_msgs/msg/Twist 'linear:
+  x: 0.0
+  y: 0.0
+  z: 0.0
+angular:
+  x: 0.0
+  y: 0.0
+  z: 0.2
+' 
 ```
-Then adjust the launchfile for AMCL
+### PS3 controller for teleoperation
+
+Connect the **PS3 controller** via Bluetooth: 
+* Press the PS Button in the middle, 4 LEDs are blinking while searching
+* Press again and the LED 1 stays on
+* (Use the cable connection to save the controller's battery)
+
+Start the PS3 controller teleop driver
 ```bash
-# Tortugabot
-roscd tortugabot_bringup/launch
-nano amcl.launch
+ros2 launch roboclaw_node joy_teleop_launch.xml
 ```
-Change the map file loaded to yours.
+The last message should be `Opened joystick: PLAYSTATION(R)3 Controller.  deadzone: 0.500000`. If not, make sure the controller is connected via Bluetooth. Check the topics for `/joy`. 
 
-Change your map manually if you need to, e.g. when a corridor is recorded shorter than it actually is. Copy a backup of your map and start refining it in. Install gimp or inkscape to edit the image.
+### Hokuyo LiDAR for sensing
 
-When you have the map properly set up, run AMCL to make it localize.
+Connect the **Hokuyo** via Ethernet. Set the wired connection to `Hokuyo`.  Check the connection
 ```bash
-# Tortugabot
-roslaunch tortugabot_bringup amcl.launch
+ping 192.168.200.11 # For the tortuga4 it is 192.168.0.10
 ```
-
-### RViz Setup
-Hit the 'Add' button in the bottom left corner and add  TF, Map and LaserScan. In TF you can adjust the marker size. Map need the Topic `/map` and LaserScan the Topic `/scan`
-![[rviz_setup.png]]
-2D Pose Estimate, the button with the green arrow in the head row, can set the robots position on the map. Click the button, then click&drag on the map to set the point and orientation.
-
-Save the config file.
-
-### Move Base action server
-Move Base needs the launchfiles  `base_and_joy_and_laser` and `amcl` to be running. Start the server like this:
+Start the Hokuyo driver
 ```bash
-# Tortugabot
-roslaunch tortugabot_bringup move_base.launch
+ros2 launch urg_node2 urg_node2.launch.py
 ```
-In RViz add
-* another map, showing the global map topic
-* then another one showing the local map
-* the path planner
+The last message should be 
+`Connected to a network device with single scan. Hardware ID: H1411496`
+Check the topics for `\scan`.
 
-Next to the button 2D Pose Estimate there is 2D Nav Goal with a red arrow. Use that to send commands to the move base server.
+Throttle the scan messages down to 10hz
+```bash
+ros2 run topic_tools throttle messages /scan 10.0
+```
+Check the topics frequency
+```bash
+ros2 topic hz /scan
+ros2 topic hz /scan_throttle
+```
+### Connect base and laser TF
+
+Publish a static transform on TF between the `base_footprint` and the `laser`
+```bash
+ros2 run tf2_ros static_transform_publisher --frame-id base_footprint --child-frame-id laser
+```
+### RViz
+
+On the turtlebot laptop, start RViz. Visualize TF and scan in RViz.
+
+## Record a map of the floor
+
+Launch a transform for the base_link as it is required for nav2
+```bash
+ros2 run tf2_ros static_transform_publisher --frame-id base_footprint --child-frame-id base_link
+```
+Start the navigation
+```bash
+ros2 launch nav2_bringup navigation_launch.py
+```
+Start SLAM
+```bash
+ros2 launch slam_toolbox online_async_launch.py
+```
+Start RViz on the tortuga laptop
+```bash
+ros2 run rviz2 rviz2 -d /opt/ros/jazzy/share/nav2_bringup/rviz/nav2_default_view.rviz
+```
+Drive around with the teleop controller. When you are done, save the map with 
+```bash
+ros2 run nav2_map_server map_saver_cli -f map
+```
+Put your two map files into `~/tortugabot_ws/src/tortugabot/tortugabot_bringup/map/`
+
+Now with an updated map of the floor, start the map server:
+```bash
+ros2 launch tortugabot_bringup map_server.launch.py
+```
+
+In RViz add a new Map visualization.
+* set the Topic to `/map`
+* set the Topic Durability Policy to `Transient Local`
+* set the global Fixed Frame to `/map`
+* disable+enable the Map visualization
+
+---
+## Additional: ROS over WiFi
+
+First of all, don't. ROS2 invokes a lot of overhead and floods the network with discovery messages until denial of service, when DDS is not configured properly.
+
+Traffic statistics:
+Tortugabot localhost-only - 400 packages/minute
+Tortugabot + Rviz Remote + TF - 2.000 packages/minute 
+Tortugabot + Rviz Remote + TF + /scan - 12.000 packages/minute 
+
+If you need to, install [[RMW - Cyclone DSS]] and share the same ROS_DOMAN_ID with the tortugabot.
+
+Use wireshark to monitor the communication.
