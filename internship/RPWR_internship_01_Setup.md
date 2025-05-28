@@ -1,12 +1,18 @@
 In this internship you will write code to control Tortugabots on their way through the building. You will work in groups.  
 
-The goal is a group-presentation of self-implemented navigation, using the given programs. To evaluate your grade, the following aspects are considered:
+The goal until the end of this internship is a group-presentation of self-implemented navigation, using the given programs. To evaluate your grade, the following aspects are considered:
 * Repel: Avoid collisions before they happen.
-* Static attraction: follow a wall.
-* Dynamic attraction: follow a person.
-* Visit waypoints on a map.
+* Attraction: follow something fixed (e.g. a wall) or dynamic (a person)
+* Visualization (of detection/goals/intentions)
 
-Presentation is given with complementary material. Slides with screenshots are good, a demo video even better. Consider Murphys Law: your live-demo will fail, so prepare backup material to showcase your work. 
+Today task on the robot is 
+* start the robot, move it with the controller
+* record a map with slam 
+
+Furthermore we will brainstorm a few ideas to implement with what we have.
+
+Presentation is given on Wednesday 2nd of July with complementary material. Slides with screenshots are good, a demo video even better. Consider Murphys Law: your live-demo will fail, so prepare backup material to showcase your work.
+
 ## Hardware components
 
 Each Tortugabot system consists of multiple parts:
