@@ -32,12 +32,12 @@ The robot can detect a person in front of them, and adjusts its position such th
 The direction of the person the robot are following.
 
 ### Stay in line!
-Keep the distance to the person in front of you. If it moves forward, follow it but stop at a save distance.
+Keep the distance to the person in front of you. If it moves forward, follow it but stop at a save distance. Allow forwards cmd_vel if appropriate.
 #### Visualize
 The person to follow.
 
 ### Knock-Knock
-Put the robot in front of a door. Stand still as long the door is closed. When the door is open and the path is free, drive through the door without collision.
+Put the robot in front of a door. Stand still as long the door is closed. When the door is open and the path is free, drive through the door without collision. Block forwards cmd_vel until door is open.
 #### Visualize
 If the door is open of closed.
 
