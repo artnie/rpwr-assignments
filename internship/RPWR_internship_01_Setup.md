@@ -129,7 +129,7 @@ ros2 launch urg_node2 urg_node2.launch.py
 ```
 The last message should be 
 `Connected to a network device with single scan. Hardware ID: H1411496`
-Check the topics for `\scan`.
+Check the topics for `/scan`.
 
 Throttle the scan messages down to 10hz
 ```bash
